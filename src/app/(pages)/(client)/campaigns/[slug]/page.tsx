@@ -115,8 +115,9 @@ export default function CampaignDetailPage({ params }: { params: { slug: string 
     // };
     // fetchCampaign();
     setCampaign(data);
+    setLoading(false);
 
-  }, [params.slug]);
+  }, []);
 
   // Helper functions
   const daysLeft = () => {
@@ -155,13 +156,13 @@ export default function CampaignDetailPage({ params }: { params: { slug: string 
   if (loading) {
     return (
       <div className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen">
-        <Header />
+
         <main className="px-6 py-20">
           <div className="container mx-auto flex justify-center items-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
           </div>
         </main>
-        <Footer />
+
       </div>
     );
   }
@@ -169,20 +170,20 @@ export default function CampaignDetailPage({ params }: { params: { slug: string 
   if (error) {
     return (
       <div className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen">
-        <Header />
+
         <main className="px-6 py-20">
           <div className="container mx-auto text-center">
             <p className="text-red-500">เกิดข้อผิดพลาด: {error.message}</p>
           </div>
         </main>
-        <Footer />
+
       </div>
     );
   }
 
   return (
     <div className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen">
-      <Header />
+
       <main>
         {/* CAMPAIGN HEADER */}
         <section className="relative pt-20 pb-10 px-6">
@@ -567,7 +568,7 @@ export default function CampaignDetailPage({ params }: { params: { slug: string 
           </div>
         </section>
       </main>
-      <Footer />
+
     </div>
   );
 }
