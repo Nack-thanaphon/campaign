@@ -23,10 +23,10 @@ const Header = () => {
                 </button>
                 <nav className="hidden md:flex space-x-4">
                     <ul className="flex space-x-4">
-                        <li><a href="/support/how-to" className="hover:text-blue-300">campaign</a></li>
-                        <li><a href="/support/version" className="hover:text-blue-300">how to </a></li>
-                        <li><a href="/support/post-area" className="hover:text-blue-300">partner</a></li>
-                        <li><a href="/support/post-area" className="hover:text-blue-300">contact</a></li>
+                        <li><a href="/campaigns" className="hover:text-blue-300">campaign</a></li>
+                        <li><a href="/support/how-to" className="hover:text-blue-300">how to </a></li>
+                        <li><a href="/partner" className="hover:text-blue-300">partner</a></li>
+                        <li><a href="/contact" className="hover:text-blue-300">contact</a></li>
                         <li><a href="/login" className="hover:text-blue-300">signin</a></li>
                     </ul>
                 </nav>
@@ -37,10 +37,10 @@ const Header = () => {
                     }`}
             >
                 <ul className="flex flex-col space-y-2 p-4">
-                    <li><a href="/support/how-to" className="hover:text-blue-300">campaign</a></li>
-                    <li><a href="/support/version" className="hover:text-blue-300">how to</a></li>
-                    <li><a href="/support/post-area" className="hover:text-blue-300">partner</a></li>
-                    <li><a href="/login" className="hover:text-blue-300">contact</a></li>
+                    <li><a href="/campaigns" className="hover:text-blue-300">campaign</a></li>
+                    <li><a href="/support/how-to" className="hover:text-blue-300">how to </a></li>
+                    <li><a href="/partner" className="hover:text-blue-300">partner</a></li>
+                    <li><a href="/contact" className="hover:text-blue-300">contact</a></li>
                     <li><a href="/login" className="hover:text-blue-300">signin</a></li>
                 </ul>
             </nav>

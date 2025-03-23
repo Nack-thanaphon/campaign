@@ -5,79 +5,117 @@ import Header from "@/shared/components/Header";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { 
-  FaUsers, FaCalendarAlt, FaChartLine, FaClock, FaTags, FaLink, 
-  FaQrcode, FaMobile, FaShareAlt, FaRegCopy, FaEdit, FaPauseCircle, 
-  FaPlayCircle, FaTrash, FaInfoCircle, FaMapMarkerAlt 
+import {
+  FaUsers, FaCalendarAlt, FaChartLine, FaClock, FaTags, FaLink,
+  FaQrcode, FaMobile, FaShareAlt, FaRegCopy, FaEdit, FaPauseCircle,
+  FaPlayCircle, FaTrash, FaInfoCircle, FaMapMarkerAlt
 } from "react-icons/fa";
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export default function CampaignDetailPage({ params }:{
-  params: { slug: string }
-}) {
-  const [campaign, setCampaign] = useState(null);
+export default function CampaignDetailPage({ params }: { params: { slug: string } }) {
+  const [campaign, setCampaign] = useState<any>(null); // Using `any` temporarily for simplicity; ideally, define an interface
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("overview");
+  const [error, setError] = useState<Error | null>(null);
+  const [activeTab, setActiveTab] = useState<"overview" | "statistics" | "participants" | "locations" | "settings">("overview");
   const [page, setPage] = useState(1);
   const participantsPerPage = 5;
 
+
+
+  const data = {
+    id: 1,
+    title: "Summer Promotion 2025",
+    description: "ฉลองฤดูร้อนกับส่วนลดสุดพิเศษสำหรับสินค้าใหม่ของเรา พร้อมโอกาสลุ้นรับรางวัลท่องเที่ยวสุดหรู",
+    image: "/image/campaign1.jpg",
+    status: "active",
+    type: "Seasonal",
+    startDate: "2025-04-01",
+    endDate: "2025-07-31",
+    participants: 1250,
+    participantsGoal: 2000,
+    totalScans: 3745,
+    uniqueScans: 1852,
+    conversions: 425,
+    progress: 75,
+    engagementRate: 22.8,
+    targetAudience: "อายุ 18-35 ปี, สนใจสินค้าไลฟ์สไตล์และการท่องเที่ยว",
+    locations: ["กรุงเทพมหานคร", "เชียงใหม่", "ภูเก็ต", "พัทยา"],
+    nfcTags: 25,
+    actions: [
+      { name: "รับส่วนลด 15%", completions: 387 },
+      { name: "ลงทะเบียนรับของแถม", completions: 254 },
+      { name: "แชร์บนโซเชียลมีเดีย", completions: 142 }
+    ],
+    dailyStats: [
+      { date: "2025-04-01", scans: 120, participants: 85 },
+      { date: "2025-04-02", scans: 145, participants: 92 },
+      { date: "2025-04-03", scans: 132, participants: 88 },
+      { date: "2025-04-04", scans: 156, participants: 103 },
+      { date: "2025-04-05", scans: 178, participants: 112 },
+      { date: "2025-04-06", scans: 165, participants: 98 },
+      { date: "2025-04-07", scans: 189, participants: 120 }
+    ]
+  }
+
   // Fetch campaign data
   useEffect(() => {
-    const fetchCampaign = async () => {
-      try {
-        // Simulate API call (replace with real endpoint)
-        const response = await new Promise(resolve => 
-          setTimeout(() => resolve({
-            json: () => ({
-              id: 1,
-              title: "Summer Promotion 2025",
-              description: "ฉลองฤดูร้อนกับส่วนลดสุดพิเศษสำหรับสินค้าใหม่ของเรา พร้อมโอกาสลุ้นรับรางวัลท่องเที่ยวสุดหรู",
-              image: "/image/campaign1.jpg",
-              status: "active",
-              type: "Seasonal",
-              startDate: "2025-04-01",
-              endDate: "2025-07-31",
-              participants: 1250,
-              participantsGoal: 2000,
-              totalScans: 3745,
-              uniqueScans: 1852,
-              conversions: 425,
-              progress: 75,
-              engagementRate: 22.8,
-              targetAudience: "อายุ 18-35 ปี, สนใจสินค้าไลฟ์สไตล์และการท่องเที่ยว",
-              locations: ["กรุงเทพมหานคร", "เชียงใหม่", "ภูเก็ต", "พัทยา"],
-              nfcTags: 25,
-              actions: [
-                { name: "รับส่วนลด 15%", completions: 387 },
-                { name: "ลงทะเบียนรับของแถม", completions: 254 },
-                { name: "แชร์บนโซเชียลมีเดีย", completions: 142 }
-              ],
-              dailyStats: [
-                { date: "2025-04-01", scans: 120, participants: 85 },
-                { date: "2025-04-02", scans: 145, participants: 92 },
-                { date: "2025-04-03", scans: 132, participants: 88 },
-                { date: "2025-04-04", scans: 156, participants: 103 },
-                { date: "2025-04-05", scans: 178, participants: 112 },
-                { date: "2025-04-06", scans: 165, participants: 98 },
-                { date: "2025-04-07", scans: 189, participants: 120 }
-              ]
-            })
-          }), 500)
-        );
-        const data = await response.json();
-        setCampaign(data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCampaign();
+    // const fetchCampaign = async () => {
+    //   try {
+    //     // Simulate API call (replace with real endpoint)
+    //     const response = await new Promise((resolve) =>
+    //       setTimeout(() => resolve({
+    //         json: () => (
+    //           const data ={
+    //           id: 1,
+    //           title: "Summer Promotion 2025",
+    //           description: "ฉลองฤดูร้อนกับส่วนลดสุดพิเศษสำหรับสินค้าใหม่ของเรา พร้อมโอกาสลุ้นรับรางวัลท่องเที่ยวสุดหรู",
+    //           image: "/image/campaign1.jpg",
+    //           status: "active",
+    //           type: "Seasonal",
+    //           startDate: "2025-04-01",
+    //           endDate: "2025-07-31",
+    //           participants: 1250,
+    //           participantsGoal: 2000,
+    //           totalScans: 3745,
+    //           uniqueScans: 1852,
+    //           conversions: 425,
+    //           progress: 75,
+    //           engagementRate: 22.8,
+    //           targetAudience: "อายุ 18-35 ปี, สนใจสินค้าไลฟ์สไตล์และการท่องเที่ยว",
+    //           locations: ["กรุงเทพมหานคร", "เชียงใหม่", "ภูเก็ต", "พัทยา"],
+    //           nfcTags: 25,
+    //           actions: [
+    //             { name: "รับส่วนลด 15%", completions: 387 },
+    //             { name: "ลงทะเบียนรับของแถม", completions: 254 },
+    //             { name: "แชร์บนโซเชียลมีเดีย", completions: 142 }
+    //           ],
+    //           dailyStats: [
+    //             { date: "2025-04-01", scans: 120, participants: 85 },
+    //             { date: "2025-04-02", scans: 145, participants: 92 },
+    //             { date: "2025-04-03", scans: 132, participants: 88 },
+    //             { date: "2025-04-04", scans: 156, participants: 103 },
+    //             { date: "2025-04-05", scans: 178, participants: 112 },
+    //             { date: "2025-04-06", scans: 165, participants: 98 },
+    //             { date: "2025-04-07", scans: 189, participants: 120 }
+    //           ]
+    //         })
+    //       }), 500)
+    //     );
+    //     // const data = await response.json();
+    //     setCampaign(data);
+    //   } catch (err) {
+    //     setError(err as Error);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+    // fetchCampaign();
+    setCampaign(data);
+
   }, [params.slug]);
 
   // Helper functions
@@ -85,24 +123,24 @@ export default function CampaignDetailPage({ params }:{
     if (!campaign) return 0;
     const end = new Date(campaign.endDate);
     const today = new Date();
-    const diffTime = end - today;
+    const diffTime = end.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays > 0 ? diffDays : 0;
   };
 
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('th-TH', options);
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString("th-TH", options);
   };
 
   // Chart data for daily stats
   const chartData = {
-    labels: campaign?.dailyStats.map(stat => stat.date) || [],
+    labels: campaign?.dailyStats?.map((stat: any) => stat.date) || [],
     datasets: [{
-      label: 'การสแกนรายวัน',
-      data: campaign?.dailyStats.map(stat => stat.scans) || [],
-      borderColor: '#3b82f6',
-      backgroundColor: 'rgba(59, 130, 246, 0.5)',
+      label: "การสแกนรายวัน",
+      data: campaign?.dailyStats?.map((stat: any) => stat.scans) || [],
+      borderColor: "#3b82f6",
+      backgroundColor: "rgba(59, 130, 246, 0.5)",
       fill: false,
     }],
   };
@@ -116,36 +154,36 @@ export default function CampaignDetailPage({ params }:{
   // Render states
   if (loading) {
     return (
-      <>
-       
-        <main className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen px-6 py-20">
+      <div className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen">
+        <Header />
+        <main className="px-6 py-20">
           <div className="container mx-auto flex justify-center items-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
           </div>
         </main>
-       
-      </>
+        <Footer />
+      </div>
     );
   }
 
   if (error) {
     return (
-      <>
-        
-        <main className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen px-6 py-20">
+      <div className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen">
+        <Header />
+        <main className="px-6 py-20">
           <div className="container mx-auto text-center">
             <p className="text-red-500">เกิดข้อผิดพลาด: {error.message}</p>
           </div>
         </main>
-       
-      </>
+        <Footer />
+      </div>
     );
   }
 
   return (
-    <>
-    
-      <main className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen">
+    <div className="bg-gradient-to-b from-black to-blue-950 text-white min-h-screen">
+      <Header />
+      <main>
         {/* CAMPAIGN HEADER */}
         <section className="relative pt-20 pb-10 px-6">
           <div className="container mx-auto">
@@ -169,23 +207,22 @@ export default function CampaignDetailPage({ params }:{
             <div className="lg:flex">
               <div className="lg:w-2/3 lg:pr-12">
                 <div className="flex items-center mb-4">
-                  <span className={`${
-                    campaign.status === 'active' ? 'bg-green-500' : 
-                    campaign.status === 'paused' ? 'bg-yellow-500' : 
-                    campaign.status === 'ended' ? 'bg-red-500' : 'bg-gray-500'
-                  } px-3 py-1 rounded-full text-xs font-medium mr-3`}>
-                    {campaign.status === 'active' ? 'กำลังดำเนินการ' : 
-                     campaign.status === 'paused' ? 'หยุดชั่วคราว' : 
-                     campaign.status === 'ended' ? 'สิ้นสุดแล้ว' : 'ร่าง'}
+                  <span className={`${campaign.status === "active" ? "bg-green-500" :
+                    campaign.status === "paused" ? "bg-yellow-500" :
+                      campaign.status === "ended" ? "bg-red-500" : "bg-gray-500"
+                    } px-3 py-1 rounded-full text-xs font-medium mr-3`}>
+                    {campaign.status === "active" ? "กำลังดำเนินการ" :
+                      campaign.status === "paused" ? "หยุดชั่วคราว" :
+                        campaign.status === "ended" ? "สิ้นสุดแล้ว" : "ร่าง"}
                   </span>
                   <span className="bg-blue-500 px-3 py-1 rounded-full text-xs font-medium">
                     {campaign.type}
                   </span>
                 </div>
-                
+
                 <h1 className="text-4xl font-bold mb-4">{campaign.title}</h1>
                 <p className="text-gray-300 mb-6">{campaign.description}</p>
-                
+
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   <div className="bg-blue-900/20 border border-blue-500/20 rounded-lg p-4">
                     <div className="flex items-center mb-2">
@@ -219,8 +256,8 @@ export default function CampaignDetailPage({ params }:{
 
                 <div className="mb-8">
                   <div className="w-full bg-gray-700 rounded-full h-4">
-                    <div 
-                      className="bg-blue-500 h-4 rounded-full" 
+                    <div
+                      className="bg-blue-500 h-4 rounded-full"
                       style={{ width: `${campaign.progress}%` }}
                     ></div>
                   </div>
@@ -230,7 +267,7 @@ export default function CampaignDetailPage({ params }:{
                   </div>
                 </div>
               </div>
-              
+
               <div className="lg:w-1/3">
                 <div className="rounded-2xl overflow-hidden border border-blue-500/20 h-64 relative">
                   <Image
@@ -244,11 +281,11 @@ export default function CampaignDetailPage({ params }:{
                   <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg flex items-center justify-center">
                     <FaEdit className="mr-2" /> แก้ไขแคมเปญ
                   </button>
-                  {campaign.status === 'active' ? (
+                  {campaign.status === "active" ? (
                     <button className="w-full py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg flex items-center justify-center">
                       <FaPauseCircle className="mr-2" /> หยุดแคมเปญชั่วคราว
                     </button>
-                  ) : campaign.status === 'paused' ? (
+                  ) : campaign.status === "paused" ? (
                     <button className="w-full py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg flex items-center justify-center">
                       <FaPlayCircle className="mr-2" /> เริ่มแคมเปญ
                     </button>
@@ -267,13 +304,11 @@ export default function CampaignDetailPage({ params }:{
           <div className="container mx-auto">
             <div className="border-b border-gray-700 mb-8">
               <nav className="flex overflow-x-auto pb-1">
-                {["overview", "statistics", "participants", "locations", "settings"].map((tab) => (
+                {(["overview", "statistics", "participants", "locations", "settings"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-6 py-3 font-medium text-sm whitespace-nowrap ${
-                      activeTab === tab ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400 hover:text-white"
-                    }`}
+                    className={`px-6 py-3 font-medium text-sm whitespace-nowrap ${activeTab === tab ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400 hover:text-white"}`}
                   >
                     {tab === "overview" && "ภาพรวม"}
                     {tab === "statistics" && "สถิติ"}
@@ -298,7 +333,7 @@ export default function CampaignDetailPage({ params }:{
                       </div>
                       <div>
                         <p className="text-gray-400 mb-1">อัตราการแปลง</p>
-                        <p className="text-3xl font-bold text-blue-400">{(campaign.conversions / campaign.uniqueScans * 100).toFixed(1)}%</p>
+                        <p className="text-3xl font-bold text-blue-400">{((campaign.conversions / campaign.uniqueScans) * 100).toFixed(1)}%</p>
                       </div>
                       <div>
                         <p className="text-gray-400 mb-1">ผู้ใช้ที่ไม่ซ้ำกัน</p>
@@ -320,15 +355,15 @@ export default function CampaignDetailPage({ params }:{
                   <div className="bg-blue-900/20 border border-blue-500/20 rounded-2xl p-6">
                     <h2 className="text-xl font-bold mb-6">การดำเนินการของผู้ใช้</h2>
                     <div className="space-y-4">
-                      {campaign.actions.map((action, index) => (
+                      {campaign.actions.map((action: any, index: number) => (
                         <div key={index}>
                           <div className="flex justify-between items-center mb-2">
                             <span>{action.name}</span>
                             <span className="text-gray-400">{action.completions} ครั้ง</span>
                           </div>
                           <div className="w-full bg-gray-700 rounded-full h-2">
-                            <div 
-                              className="bg-blue-500 h-2 rounded-full" 
+                            <div
+                              className="bg-blue-500 h-2 rounded-full"
                               style={{ width: `${(action.completions / campaign.uniqueScans * 100)}%` }}
                             ></div>
                           </div>
@@ -431,14 +466,14 @@ export default function CampaignDetailPage({ params }:{
                   </p>
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                      onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                       disabled={page === 1}
                       className="px-3 py-1 bg-blue-900/30 rounded disabled:opacity-50"
                     >
                       ก่อนหน้า
                     </button>
                     <button
-                      onClick={() => setPage(prev => Math.min(prev + 1, Math.ceil(campaign.participants / participantsPerPage)))}
+                      onClick={() => setPage((prev) => Math.min(prev + 1, Math.ceil(campaign.participants / participantsPerPage)))}
                       disabled={page === Math.ceil(campaign.participants / participantsPerPage)}
                       className="px-3 py-1 bg-blue-900/30 rounded disabled:opacity-50"
                     >
@@ -459,15 +494,15 @@ export default function CampaignDetailPage({ params }:{
                 </div>
                 <h3 className="font-medium mb-4">พื้นที่ที่มีการสแกนสูงสุด</h3>
                 <div className="space-y-4">
-                  {campaign.locations.map((location, index) => (
+                  {campaign.locations.map((location: string, index: number) => (
                     <div key={index}>
                       <div className="flex justify-between items-center mb-2">
                         <span>{location}</span>
                         <span className="text-gray-400">{Math.floor(Math.random() * 1000) + 500} ครั้ง</span>
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                          className="bg-blue-500 h-2 rounded-full" 
+                        <div
+                          className="bg-blue-500 h-2 rounded-full"
                           style={{ width: `${90 - (index * 15)}%` }}
                         ></div>
                       </div>
@@ -532,7 +567,7 @@ export default function CampaignDetailPage({ params }:{
           </div>
         </section>
       </main>
-     
-    </>
+      <Footer />
+    </div>
   );
 }
